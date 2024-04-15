@@ -2,14 +2,9 @@
 
 namespace IPP\Student;
 
-class WRITE
+class WRITE extends AbstractInstruction
 {
-    function __construct()
-    {
-        
-    }
-
-    public function execute()
+    public function execute() :void
     {
         echo("hello");
         // Implementation of the execute method for DefVarInstruction

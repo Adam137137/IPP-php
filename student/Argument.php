@@ -4,9 +4,10 @@ namespace IPP\Student;
 
 class Argument
 {
-    private string $argType;
-    private int $argNumber;
-    private string $argValue;
+    public string $argType;
+    public int $argNumber;
+    public string $argValue;
+
 
     function __construct(string $argType, int $argNumber, string $argValue)
     {
@@ -15,12 +16,31 @@ class Argument
         $this->argValue = $argValue;
     }
 
-    function getArgNumber() {
+    function getArgNumber() :int
+    {
         return $this->argNumber;
     }
-    
-    function print(){
-        echo "Number {$this->argNumber} Type: {$this->argType}, Value: {$this->argValue}\n";
+
+    // function getVarFrame() {
+    //     return $this->VarFrame;
+    // }
+
+    // function getVarValue() {
+    //     return $this->VarValue;
+    // }
+
+    // function setVarFrame() {
+    //     return $this->VarFrame;
+    // }
+
+    // function setVarValue()
+    // {
+    //     return $this->VarValue;
+    // }
+
+    function print() :void
+    {
+        echo "    Number {$this->argNumber} Type: {$this->argType}, Value: {$this->argValue}\n";
     }
 
 }

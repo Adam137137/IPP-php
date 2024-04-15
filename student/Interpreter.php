@@ -33,39 +33,52 @@ class Interpreter extends AbstractInterpreter
                     $argName = $node->nodeName;
                     $argType = $node->getAttribute('type');
                     $argValue = $node->nodeValue;
-                    
 
                     if (preg_match('/^arg(\d+)$/', $argName, $matches)) {
                         $argNumber = $matches[1];
-                        echo "{$argValue}\n";
-                        $args[] = new Argument($argType, $argNumber, $argValue);
+                        $args[] = new Argument($argType, (int) $argNumber, $argValue);
                     }
                     else{
-                        echo "tu1";
                         return ReturnCode::INVALID_SOURCE_STRUCTURE;
                     }
                 }
-                // else{
-                //     echo "{$node->nodeType}";
-                //     return ReturnCode::INVALID_XML_ERROR;
-                // }
+                else{
+                    // return ReturnCode::INVALID_XML_ERROR;
+                }
             }
             usort($args, function($a, $b) {
                 return $a->getArgNumber() - $b->getArgNumber();
             });
 
-            foreach ($args as $arg)
-            {
-                $arg->print();
-            }
+
             
             $className = $namespace_prefix . $opcode;
-            $instructionObject = new $className($order);
+            $instructionObject = new $className($order, $args);
             $instruction_Array[] = $instructionObject;
+        }
+
+        $orderComparison = function($a, $b) {
+            // Extract the order attribute from each instruction
+            $orderA = $a->getOrder();
+            $orderB = $b->getOrder();
+        
+            // Compare the order values
+            if ($orderA == $orderB) {
+                return 0;
+            }
+            return ($orderA < $orderB) ? -1 : 1;
+        };
+
+        usort($instruction_Array, $orderComparison);
+
+        foreach($instruction_Array as $instruction){
+            $instruction->print();
+            $instruction->printArgs();
+            $instruction->execute();
         }
 
 
         return ReturnCode::OK;
-        throw new NotImplementedException;
     }
+    
 }

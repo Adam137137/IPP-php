@@ -11,29 +11,26 @@ class DEFVAR extends AbstractInstruction
 
     public function execute() :void
     {
-        if($this->args[0]->argType === "var")
-        {
-            $parts = explode("@", $this->args[0]->argValue);
-            if (count($parts) !== 2) {
-                exit (ReturnCode::SEMANTIC_ERROR);
-            }
-            $this->VarFrame = $parts[0];
-            $this->VarValue = $parts[1];
-        }
-
         $frame = Frame::getInstance();
+
+        $parts = explode("@", $this->args[0]->argValue);
+        if (count($parts) !== 2) {
+            exit (ReturnCode::SEMANTIC_ERROR);
+        }
+        $this->VarFrame = $parts[0];
+        $this->VarValue = $parts[1];
 
         if ($this->VarFrame === "GF")
         {
-            $frame->addToGF($this->VarValue, "NULL", "NULL");
+            $frame->addToGF($this->VarValue, "NULL", "NULL", true);
         }
         else if ($this->VarFrame === "LF")
         {
-            $frame->addToLF($this->VarValue, "NULL", "NULL");
+            $frame->addToLF($this->VarValue, "NULL", "NULL", true);
         }
         if ($this->VarFrame === "TF")
         {
-            $frame->addToTF($this->VarValue, "NULL", "NULL");
+            $frame->addToTF($this->VarValue, "NULL", "NULL", true);
         }
     }
 

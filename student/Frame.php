@@ -22,10 +22,6 @@ class Frame
      */
     private array $frameTF = [];
     
-    // function __construct()
-    // {
-        
-    // }
     public static function getInstance(): Frame
     {
         if (self::$instance === null) {
@@ -34,21 +30,21 @@ class Frame
         return self::$instance;
     }
 
-    public function addToGF(string $name, string $type, string $value) :void
+    public function addToGF(string $name, string $type, string $value, bool $creation) :void
     {
-        if(!isset($this->frameGF[$name]))
+        if(!isset($this->frameGF[$name]) || ($creation === false))
         {
             $this->frameGF[$name] = [$type, $value];
         }
         else
         {
-            exit(ReturnCode::SEMANTIC_ERROR);
+            exit(ReturnCode::SEMANTIC_ERROR);   
         }
     }
 
-    public function addToLF(string $name, string $type, string $value) :void
+    public function addToLF(string $name, string $type, string $value, bool $creation) :void
     {
-        if(!isset($this->frameLF[$name]))
+        if(!isset($this->frameLF[$name]) || ($creation === false))
         {
             $this->frameLF[$name] = [$type, $value];
         }
@@ -57,9 +53,9 @@ class Frame
             exit(ReturnCode::SEMANTIC_ERROR);
         }
     }
-    public function addToTF(string $name, string $type, string $value) :void
+    public function addToTF(string $name, string $type, string $value, bool $creation) :void
     {
-        if(!isset($this->frameTF[$name]))
+        if(!isset($this->frameTF[$name]) || ($creation === false))
         {
             $this->frameTF[$name] = [$type, $value];
         }

@@ -4,10 +4,8 @@
         <arg1 type="var">GF@a</arg1>
     </instruction>
     <instruction order="2" opcode="READ">
-        <arg2 type="type">int</arg2>
         <arg1 type="var">GF@a</arg1>
-        <arg6 type="type">int6</arg6>
-        <arg3 type="type">int4</arg3>
+        <arg2 type="type">int</arg2>
         
     </instruction>
     <instruction order="3" opcode="WRITE">

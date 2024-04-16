@@ -72,8 +72,8 @@ class Interpreter extends AbstractInterpreter
         usort($instruction_Array, $orderComparison);
 
         foreach($instruction_Array as $instruction){
-            // $instruction->print();
-            // $instruction->printArgs();
+            $instruction->print();
+            $instruction->printArgs();
             $instruction->execute();
         }
 

@@ -3,20 +3,20 @@
 namespace IPP\Student;
 
 use IPP\Core\ReturnCode;
-use IPP\Core\StreamWriter;
 
-class instr_WRITE extends AbstractInstruction
+class instr_EXIT extends AbstractInstruction
 {
     private string $VarFrame;
     private string $VarValue;
     private string $type;
-    private string $string;
+    private int $int;
+
 
     public function execute() :void
     {
         $frame = Frame::getInstance();
-        $streamWriter = new StreamWriter(STDOUT);
 
+        // part get from
         if ($this->args[0]->argType === "var")
         {
             $parts = explode("@", $this->args[0]->argValue);
@@ -40,7 +40,12 @@ class instr_WRITE extends AbstractInstruction
             }
             
             if ($value !== null) {
-                list($this->type, $this->string) = $value;
+                list($this->type, $string) = $value;
+                if (!($this->type === "int" && preg_match('/^-?\d+$/', $string)))
+                {
+                    exit(ReturnCode::OPERAND_TYPE_ERROR);
+                }
+                $this->int = $string;
             }
         }
         else if ($this->args[0]->argType === "int")
@@ -50,44 +55,17 @@ class instr_WRITE extends AbstractInstruction
                 exit (ReturnCode::OPERAND_TYPE_ERROR);
             }
             $this->type = "int";
-            $this->string = $string;
+            $this->int = $string;
         }
-        else if ($this->args[0]->argType === "string")
-        {
-            $this->type = "string";
-            $this->string = $this->args[0]->argValue;
-        }
-        else if ($this->args[0]->argType === "bool")
-        {
-            $this->type = "bool";
-            $this->string = $this->args[0]->argValue;
-        }
-        else if ($this->args[0]->argType === "nil")
-        {
-            $string = $this->args[0]->argValue;
-            if (!preg_match('/^nil$/', $string)) {
-                exit (ReturnCode::OPERAND_TYPE_ERROR);
-            }
-            $this->type = "nil";
-            $this->string = $string;
+        else{
+            exit (ReturnCode::OPERAND_TYPE_ERROR);
         }
 
+        if ($this->int < 0 || $this->int > 9)
+        {
+            exit (ReturnCode::OPERAND_VALUE_ERROR);
+        }
 
-        if ($this->type === "string")
-        {
-            $streamWriter->writeString($this->string);
-        }
-        else if ($this->type === "int")
-        {
-            $streamWriter->writeInt((int)$this->string);
-        }
-        else if ($this->type === "bool")
-        {
-            $streamWriter->writeBool($this->string === 'true');
-        }
-        else if ($this->type === "nil")
-        {
-            $streamWriter->writeString("");
-        }
+        exit($this->int);
     }
 }

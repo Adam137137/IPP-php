@@ -47,8 +47,12 @@ class instr_MOVE extends AbstractInstruction
         }
         else if ($this->args[1]->argType === "int")
         {
+            $string = $this->args[1]->argValue;
+            if (!preg_match('/^-?\d+$/', $string)) {
+                exit (ReturnCode::OPERAND_TYPE_ERROR);
+            }
             $this->type = "int";
-            $this->string = $this->args[1]->argValue;
+            $this->string = $string;
         }
         else if ($this->args[1]->argType === "string")
         {
@@ -62,8 +66,15 @@ class instr_MOVE extends AbstractInstruction
         }
         else if ($this->args[1]->argType === "nil")
         {
+            $string = $this->args[1]->argValue;
+            if (!preg_match('/^nil$/', $string)) {
+                exit (ReturnCode::OPERAND_TYPE_ERROR);
+            }
             $this->type = "nil";
-            $this->string = $this->args[1]->argValue;
+            $this->string = $string;
+        }
+        else{
+            exit (ReturnCode::OPERAND_TYPE_ERROR);
         }
 
         // part move to
@@ -82,9 +93,12 @@ class instr_MOVE extends AbstractInstruction
         {
             $frame->addToFrame($this->VarValue, $this->type, $this->string, "LF",false);
         }
-        if ($this->VarFrame === "TF")
+        else if ($this->VarFrame === "TF")
         {
             $frame->addToFrame($this->VarValue, $this->type, $this->string, "TF",false);
+        }
+        else{
+            exit (ReturnCode::SEMANTIC_ERROR);
         }
     }
 }

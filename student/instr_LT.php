@@ -4,11 +4,15 @@ namespace IPP\Student;
 
 use IPP\Core\ReturnCode;
 
-class instr_AND extends AbstractInstruction
+class instr_LT extends AbstractInstruction
 {
     private string $VarFrame;
     private string $VarValue;
-    private bool $bool;
+    private string $type1;
+    private string $string1;
+    private string $type2;
+    private string $string2;
+    private string $returnString;
 
     private string $VarFrame1;
     private string $VarValue1;
@@ -43,11 +47,14 @@ class instr_AND extends AbstractInstruction
             }
             
             if ($value !== null) {
-                list($type, $string) = $value;
-                if (!preg_match('/^(true|false)$/', $string) || $type !== "bool") {
+                list($this->type1, $this->string1) = $value;
+                if (!(
+                    ($this->type1 === "bool" && preg_match('/^(true|false)$/', $this->string1)) ||
+                    ($this->type1 === "string") ||
+                    ($this->type1 === "int" && preg_match('/^-?\d+$/', $this->string1))
+                )) {
                     exit(ReturnCode::OPERAND_TYPE_ERROR);
                 }
-                $this->bool = $string === 'true';
             }
         }
         else if ($this->args[1]->argType === "bool")
@@ -56,7 +63,22 @@ class instr_AND extends AbstractInstruction
             if (!preg_match('/^(true|false)$/', $string)) {
                 exit (ReturnCode::OPERAND_TYPE_ERROR);
             }
-            $this->bool = $string === 'true';
+            $this->type1 = "bool";
+            $this->string1 = $string;
+        }
+        else if ($this->args[1]->argType === "string")
+        {
+            $this->type1 = "string";
+            $this->string1 = $this->args[1]->argValue;
+        }
+        else if ($this->args[1]->argType === "int")
+        {
+            $string = $this->args[1]->argValue;
+            if (!preg_match('/^-?\d+$/', $string)) {
+                exit (ReturnCode::OPERAND_TYPE_ERROR);
+            }
+            $this->type1 = "int";
+            $this->string1 = $string;
         }
         else{
             exit (ReturnCode::OPERAND_TYPE_ERROR);
@@ -86,11 +108,15 @@ class instr_AND extends AbstractInstruction
             }
             
             if ($value !== null) {
-                list($type, $string) = $value;
-                if (!preg_match('/^(true|false)$/', $string) || $type !== "bool") {
-                    exit (ReturnCode::OPERAND_TYPE_ERROR);
+                list($this->type2, $this->string2) = $value;
+
+                if (!(
+                    ($this->type1 === "bool" && preg_match('/^(true|false)$/', $this->string2)) ||
+                    ($this->type1 === "string") ||
+                    ($this->type1 === "int" && preg_match('/^-?\d+$/', $this->string2))
+                )) {
+                    exit(ReturnCode::OPERAND_TYPE_ERROR);
                 }
-                $this->bool = $string === 'true' && $this->bool;
             }
         }
         else if ($this->args[2]->argType === "bool")
@@ -99,10 +125,43 @@ class instr_AND extends AbstractInstruction
             if (!preg_match('/^(true|false)$/', $string)) {
                 exit (ReturnCode::OPERAND_TYPE_ERROR);
             }
-            $this->bool = $string === 'true' && $this->bool;
+            $this->type2 = "bool";
+            $this->string2 = $string;
+        }
+        else if ($this->args[2]->argType === "string")
+        {
+            $this->type2 = "string";
+            $this->string2 = $this->args[2]->argValue;
+        }
+        else if ($this->args[2]->argType === "int")
+        {
+            $string = $this->args[2]->argValue;
+            if (!preg_match('/^-?\d+$/', $string)) {
+                exit (ReturnCode::OPERAND_TYPE_ERROR);
+            }
+            $this->type2 = "int";
+            $this->string2 = $string;
         }
         else{
             exit (ReturnCode::OPERAND_TYPE_ERROR);
+        }
+
+
+        // actual equation
+        if ($this->type1 === $this->type2 )
+        {
+            if($this->string1 < $this->string2)
+            {
+                $this->returnString = "true";
+            }
+            else
+            {
+                $this->returnString = "false";
+            }
+        }
+        else
+        {
+            exit(ReturnCode::OPERAND_TYPE_ERROR);
         }
 
 
@@ -114,18 +173,17 @@ class instr_AND extends AbstractInstruction
         $this->VarFrame = $parts[0];
         $this->VarValue = $parts[1];
 
-        $boolAsString = $this->bool ? "true" : "false";
         if ($this->VarFrame === "GF")
         {
-            $frame->addToFrame($this->VarValue, "bool", $boolAsString, "GF", false);
+            $frame->addToFrame($this->VarValue, "bool", $this->returnString, "GF", false);
         }
         else if ($this->VarFrame === "LF")
         {
-            $frame->addToFrame($this->VarValue, "bool", $boolAsString, "LF", false);
+            $frame->addToFrame($this->VarValue, "bool", $this->returnString, "LF", false);
         }
         else if ($this->VarFrame === "TF")
         {
-            $frame->addToFrame($this->VarValue, "bool", $boolAsString, "TF", false);
+            $frame->addToFrame($this->VarValue, "bool", $this->returnString, "TF", false);
         }
     }
 }

@@ -4,7 +4,7 @@ namespace IPP\Student;
 
 use IPP\Core\ReturnCode;
 
-class DEFVAR extends AbstractInstruction
+class instr_DEFVAR extends AbstractInstruction
 {
     private string $VarFrame;
     private string $VarValue;

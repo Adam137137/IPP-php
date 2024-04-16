@@ -4,7 +4,7 @@ namespace IPP\Student;
 
 use IPP\Core\ReturnCode;
 
-class ADD extends AbstractInstruction
+class instr_ADD extends AbstractInstruction
 {
     private string $VarFrame;
     private string $VarValue;
@@ -19,7 +19,7 @@ class ADD extends AbstractInstruction
     {
         $frame = Frame::getInstance();
         
-        // part get from
+        // symb1
         if ($this->args[1]->argType === "var")
         {
             $parts = explode("@", $this->args[1]->argValue);
@@ -45,7 +45,7 @@ class ADD extends AbstractInstruction
             if ($value !== null) {
                 list($type, $string) = $value;
                 if (!preg_match('/^-?\d+$/', $string) || $type !== "int") {
-                    exit (ReturnCode::OPERAND_VALUE_ERROR);
+                    exit (ReturnCode::OPERAND_TYPE_ERROR);
                 }
                 $this->int = (int) $string;
             }
@@ -54,12 +54,12 @@ class ADD extends AbstractInstruction
         {
             $string = $this->args[1]->argValue;
             if (!preg_match('/^-?\d+$/', $string)) {
-                exit (ReturnCode::OPERAND_VALUE_ERROR);
+                exit (ReturnCode::OPERAND_TYPE_ERROR);
             }
             $this->int = (int) $string;
         }
         else{
-            exit (ReturnCode::OPERAND_VALUE_ERROR);
+            exit (ReturnCode::OPERAND_TYPE_ERROR);
         }
 
         // symb2:
@@ -88,7 +88,7 @@ class ADD extends AbstractInstruction
             if ($value !== null) {
                 list($type, $string) = $value;
                 if (! preg_match('/^-?\d+$/', $string) || $type !== "int") {
-                    exit (ReturnCode::OPERAND_VALUE_ERROR);
+                    exit (ReturnCode::OPERAND_TYPE_ERROR);
                 }
                 $this->int += (int) $string;
             }
@@ -97,16 +97,16 @@ class ADD extends AbstractInstruction
         {
             $string = $this->args[2]->argValue;
             if (!preg_match('/^-?\d+$/', $string)) {
-                exit (ReturnCode::OPERAND_VALUE_ERROR);
+                exit (ReturnCode::OPERAND_TYPE_ERROR);
             }
             $this->int += (int) $string;
         }
         else{
-            exit (ReturnCode::OPERAND_VALUE_ERROR);
+            exit (ReturnCode::OPERAND_TYPE_ERROR);
         }
 
 
-        // part move to
+        // part move to <var>
         $parts = explode("@", $this->args[0]->argValue);
         if (count($parts) !== 2) {
             exit (ReturnCode::SEMANTIC_ERROR);

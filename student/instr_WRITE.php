@@ -5,7 +5,7 @@ namespace IPP\Student;
 use IPP\Core\ReturnCode;
 use IPP\Core\StreamWriter;
 
-class WRITE extends AbstractInstruction
+class instr_WRITE extends AbstractInstruction
 {
     private string $VarFrame;
     private string $VarValue;
@@ -63,15 +63,15 @@ class WRITE extends AbstractInstruction
         }
 
 
-        if ($this->type == "string")
+        if ($this->type === "string")
         {
             $streamWriter->writeString($this->string);
         }
-        else if ($this->type == "int")
+        else if ($this->type === "int")
         {
             $streamWriter->writeInt((int)$this->string);
         }
-        else if ($this->type == "bool")
+        else if ($this->type === "bool")
         {
             $streamWriter->writeBool((bool)$this->string);
         }

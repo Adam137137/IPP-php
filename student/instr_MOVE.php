@@ -4,7 +4,7 @@ namespace IPP\Student;
 
 use IPP\Core\ReturnCode;
 
-class MOVE extends AbstractInstruction
+class instr_MOVE extends AbstractInstruction
 {
     private string $VarFrame;
     private string $VarValue;
@@ -58,6 +58,11 @@ class MOVE extends AbstractInstruction
         else if ($this->args[1]->argType === "bool")
         {
             $this->type = "bool";
+            $this->string = $this->args[1]->argValue;
+        }
+        else if ($this->args[1]->argType === "nil")
+        {
+            $this->type = "nil";
             $this->string = $this->args[1]->argValue;
         }
 

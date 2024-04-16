@@ -5,7 +5,7 @@ namespace IPP\Student;
 use IPP\Core\FileInputReader;
 use IPP\Core\ReturnCode;
 
-class READ extends AbstractInstruction
+class instr_READ extends AbstractInstruction
 {
     private string $type;
     private string $value;

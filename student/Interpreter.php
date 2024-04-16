@@ -20,7 +20,7 @@ class Interpreter extends AbstractInterpreter
 
         $instructions = $dom->getElementsByTagName('instruction');
         $instruction_Array=[];
-        $namespace_prefix = 'IPP\Student\\';
+        $namespace_prefix = 'IPP\Student\\instr_';
 
         foreach ($instructions as $instruction) {
             $order = $instruction->getAttribute('order');
@@ -72,8 +72,8 @@ class Interpreter extends AbstractInterpreter
         usort($instruction_Array, $orderComparison);
 
         foreach($instruction_Array as $instruction){
-            $instruction->print();
-            $instruction->printArgs();
+            // $instruction->print();
+            // $instruction->printArgs();
             $instruction->execute();
         }
 

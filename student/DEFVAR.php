@@ -22,16 +22,15 @@ class DEFVAR extends AbstractInstruction
 
         if ($this->VarFrame === "GF")
         {
-            $frame->addToGF($this->VarValue, "NULL", "NULL", true);
+            $frame->addToFrame($this->VarValue, "NULL", "NULL", "GF", true);
         }
         else if ($this->VarFrame === "LF")
         {
-            $frame->addToLF($this->VarValue, "NULL", "NULL", true);
+            $frame->addToFrame($this->VarValue, "NULL", "NULL", "LF", true);
         }
         if ($this->VarFrame === "TF")
         {
-            $frame->addToTF($this->VarValue, "NULL", "NULL", true);
+            $frame->addToFrame($this->VarValue, "NULL", "NULL", "TF", true);
         }
     }
-
 }

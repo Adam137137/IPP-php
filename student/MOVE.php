@@ -6,7 +6,6 @@ use IPP\Core\ReturnCode;
 
 class MOVE extends AbstractInstruction
 {
-
     private string $VarFrame;
     private string $VarValue;
     private string $type;
@@ -31,15 +30,15 @@ class MOVE extends AbstractInstruction
 
             if($this->VarFrame1 == "GF")
             {
-                $value = $frame->getFromGF($this->VarValue1);
+                $value = $frame->getFromFrame($this->VarValue1, "GF");
             }
             else if($this->VarFrame1 == "LF")
             {
-                $value = $frame->getFromLF($this->VarValue1);
+                $value = $frame->getFromFrame($this->VarValue1, "LF");
             }
             else if($this->VarFrame1 == "TF")
             {
-                $value = $frame->getFromTF($this->VarValue1);
+                $value = $frame->getFromFrame($this->VarValue1, "TF");
             }
             
             if ($value !== null) {
@@ -72,15 +71,15 @@ class MOVE extends AbstractInstruction
 
         if ($this->VarFrame === "GF")
         {
-            $frame->addToGF($this->VarValue, $this->type, $this->string, false);
+            $frame->addToFrame($this->VarValue, $this->type, $this->string, "GF",false);
         }
         else if ($this->VarFrame === "LF")
         {
-            $frame->addToLF($this->VarValue, $this->type, $this->string, false);
+            $frame->addToFrame($this->VarValue, $this->type, $this->string, "LF",false);
         }
         if ($this->VarFrame === "TF")
         {
-            $frame->addToTF($this->VarValue, $this->type, $this->string, false);
+            $frame->addToFrame($this->VarValue, $this->type, $this->string, "TF",false);
         }
     }
 }

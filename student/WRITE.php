@@ -28,15 +28,15 @@ class WRITE extends AbstractInstruction
 
             if($this->VarFrame == "GF")
             {
-                $value = $frame->getFromGF($this->VarValue);
+                $value = $frame->getFromFrame($this->VarValue, "GF");
             }
             else if($this->VarFrame == "LF")
             {
-                $value = $frame->getFromLF($this->VarValue);
+                $value = $frame->getFromFrame($this->VarValue, "LF");
             }
             else if($this->VarFrame == "TF")
             {
-                $value = $frame->getFromTF($this->VarValue);
+                $value = $frame->getFromFrame($this->VarValue, "TF");
             }
             
             if ($value !== null) {

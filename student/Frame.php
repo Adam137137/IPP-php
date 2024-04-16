@@ -30,76 +30,60 @@ class Frame
         return self::$instance;
     }
 
-    public function addToGF(string $name, string $type, string $value, bool $creation) :void
+    public function addToFrame(string $name, string $type, string $value, string $frame, bool $creation) :void
     {
-        if(!isset($this->frameGF[$name]) || ($creation === false))
-        {
+        if ($frame === "GF"){
+            if(isset($this->frameGF[$name]) && ($creation === true))
+            {
+                exit(ReturnCode::SEMANTIC_ERROR);
+            }
             $this->frameGF[$name] = [$type, $value];
         }
-        else
-        {
-            exit(ReturnCode::SEMANTIC_ERROR);   
-        }
-    }
-
-    public function addToLF(string $name, string $type, string $value, bool $creation) :void
-    {
-        if(!isset($this->frameLF[$name]) || ($creation === false))
-        {
+        else if ($frame === "LF"){
+            if(isset($this->frameLF[$name]) && ($creation === true))
+            {
+                exit(ReturnCode::SEMANTIC_ERROR);
+            }
             $this->frameLF[$name] = [$type, $value];
         }
-        else
-        {
-            exit(ReturnCode::SEMANTIC_ERROR);
-        }
-    }
-    public function addToTF(string $name, string $type, string $value, bool $creation) :void
-    {
-        if(!isset($this->frameTF[$name]) || ($creation === false))
-        {
+        else if ($frame === "TF"){
+            if(isset($this->frameTF[$name]) && ($creation === true))
+            {
+                exit(ReturnCode::SEMANTIC_ERROR);
+            }
             $this->frameTF[$name] = [$type, $value];
-        }
-        else
-        {
-            exit(ReturnCode::SEMANTIC_ERROR);
-        }
-    }
-    
-    public function getFromGF(string $name)
-    {
-        if(isset($this->frameGF[$name]))
-        {
-            return $this->frameGF[$name];
-        }
-        else
-        {
-            echo "value is not set\n";
-            exit(ReturnCode::SEMANTIC_ERROR);   
-        }
-    }
-    public function getFromLF(string $name)
-    {
-        if(isset($this->frameLF[$name]))
-        {
-            return $this->frameLF[$name];
-        }
-        else
-        {
-            echo "value is not set\n";
-            exit(ReturnCode::SEMANTIC_ERROR);   
-        }
-    }
-    public function getFromTF(string $name)
-    {
-        if(isset($this->frameTF[$name]))
-        {
-            return $this->frameTF[$name];
-        }
-        else
-        {
-            echo "value is not set\n";
-            exit(ReturnCode::SEMANTIC_ERROR);   
         }
     }
 
+    
+    public function getFromFrame(string $name, string $frame)
+    { 
+        if ($frame === "GF")
+        {
+            if(!isset($this->frameGF[$name]))
+            {
+                echo "value is not set\n";
+                exit(ReturnCode::SEMANTIC_ERROR);   
+            }
+            return $this->frameGF[$name];
+        }
+        else if ($frame === "LF")
+        {
+            if(!isset($this->frameLF[$name]))
+            {
+                echo "value is not set\n";
+                exit(ReturnCode::SEMANTIC_ERROR);   
+            }
+            return $this->frameLF[$name];
+        }
+        else if ($frame === "TF")
+        {
+            if(!isset($this->frameTF[$name]))
+            {
+                echo "value is not set\n";
+                exit(ReturnCode::SEMANTIC_ERROR);   
+            }
+            return $this->frameTF[$name];
+        }
+    }
 }

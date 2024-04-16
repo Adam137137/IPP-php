@@ -52,15 +52,15 @@ class READ extends AbstractInstruction
 
         if ($this->VarFrame === "GF")
         {
-            $frame->addToGF($this->VarValue, $this->type, $this->string, false);
+            $frame->addToFrame($this->VarValue, $this->type, $this->string, "GF", false);
         }
         else if ($this->VarFrame === "LF")
         {
-            $frame->addToLF($this->VarValue, $this->type, $this->string, false);
+            $frame->addToFrame($this->VarValue, $this->type, $this->string, "LF", false);
         }
         if ($this->VarFrame === "TF")
         {
-            $frame->addToTF($this->VarValue, $this->type, $this->string, false);
+            $frame->addToFrame($this->VarValue, $this->type, $this->string, "TF", false);
         }
         
 

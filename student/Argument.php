@@ -40,7 +40,7 @@ class Argument
 
     function print() :void
     {
-        echo "    Number {$this->argNumber} Type: {$this->argType}, Value: {$this->argValue}\n";
+        echo "    Arg num: {$this->argNumber} Type: {$this->argType}, Value: {$this->argValue}\n";
     }
 
 }

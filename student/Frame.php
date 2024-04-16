@@ -65,4 +65,41 @@ class Frame
         }
     }
     
+    public function getFromGF(string $name)
+    {
+        if(isset($this->frameGF[$name]))
+        {
+            return $this->frameGF[$name];
+        }
+        else
+        {
+            echo "value is not set\n";
+            exit(ReturnCode::SEMANTIC_ERROR);   
+        }
+    }
+    public function getFromLF(string $name)
+    {
+        if(isset($this->frameLF[$name]))
+        {
+            return $this->frameLF[$name];
+        }
+        else
+        {
+            echo "value is not set\n";
+            exit(ReturnCode::SEMANTIC_ERROR);   
+        }
+    }
+    public function getFromTF(string $name)
+    {
+        if(isset($this->frameTF[$name]))
+        {
+            return $this->frameTF[$name];
+        }
+        else
+        {
+            echo "value is not set\n";
+            exit(ReturnCode::SEMANTIC_ERROR);   
+        }
+    }
+
 }
